@@ -1,0 +1,51 @@
+rows=2672 valid=2400 failed=272
+
+== 1. Published table, recomputed (n, accuracy %, 404s/task, fetches) ==
+claude / html      n=300  acc= 96.0  404s/task=1.12  fetches=  6.7
+claude / md        n=300  acc= 94.3  404s/task=0.79  fetches=  7.0
+claude / md-link   n=300  acc= 97.3  404s/task=0.10  fetches=  4.1
+claude / md-inline n=300  acc= 99.0  404s/task=0.02  fetches=  4.6
+codex  / html      n=300  acc= 97.7  404s/task=3.33  fetches= 26.5
+codex  / md        n=300  acc= 96.0  404s/task=2.05  fetches= 24.9
+codex  / md-link   n=300  acc= 97.7  404s/task=0.15  fetches= 13.2
+codex  / md-inline n=300  acc= 99.3  404s/task=0.18  fetches= 10.8
+
+== 2. expected paths vs committed page inventory ==
+tasks=100 sites=20 inventory_sites=20
+expected paths NOT in the site's inventory: 1
+   ('aptible', 'aptible-restrict-llms-per-env', ['/docs/ai-gateway/model-access-policies.md'])
+
+== 3. Incorrect valid attempts: where did the answer land? ==
+incorrect=68 of 2400 valid (2.8%)
+  40  real page: elsewhere on site
+        e.g. ('perplexity', 'chunk-context-embeddings', 'claude', 'html', 'http://127.0.0.1:61153/api-reference/contextualized-embeddings-post', '/docs/embeddings/contextualized-embeddings')
+        e.g. ('perplexity', 'chunk-context-embeddings', 'claude', 'md-inline', 'http://127.0.0.1:62357/api-reference/contextualized-embeddings-post', '/docs/embeddings/contextualized-embeddings')
+        e.g. ('firecrawl', 'cache-only-scraping', 'codex', 'md', 'http://127.0.0.1:59315/api-reference/endpoint/scrape', '/features/lockdown')
+  13  real page: sibling of expected
+        e.g. ('dub', 'firebase-dynamic-links-replacement', 'claude', 'md-link', 'http://127.0.0.1:56477/docs/concepts/deep-links/quickstart', '/docs/concepts/deep-links/migrating-from-firebase')
+        e.g. ('cartesia', 'cartesia-brand-name-speech', 'claude', 'md', 'http://127.0.0.1:55793/build-with-cartesia/capability-guides/phonemes', '/build-with-cartesia/capability-guides/custom-pronunciations')
+        e.g. ('cartesia', 'cartesia-brand-name-speech', 'claude', 'md', 'http://127.0.0.1:55884/build-with-cartesia/capability-guides/phonemes', '/build-with-cartesia/capability-guides/custom-pronunciations')
+  12  no URL in answer
+        e.g. ('dub', 'clerk-signup-tracking', 'codex', 'md-link', None, '/docs/conversions/leads/clerk')
+        e.g. ('dub', 'clerk-signup-tracking', 'codex', 'md-link', None, '/docs/conversions/leads/clerk')
+        e.g. ('dub', 'clerk-signup-tracking', 'codex', 'md-link', None, '/docs/conversions/leads/clerk')
+   3  path not in inventory (404 or invented)
+        e.g. ('firecrawl', 'cache-only-scraping', 'claude', 'html', 'http://127.0.0.1:58475/features/scrape', '/features/lockdown')
+        e.g. ('dub', 'in-app-affiliate-signup', 'claude', 'md', 'http://127.0.0.1:58647/docs/partners', '/docs/partners/embedded-referrals')
+        e.g. ('venice', 'venice-consistent-video-character', 'claude', 'md', 'http://127.0.0.1:61615/guides/media/seedance-2-0', '/guides/media/reference-to-video')
+
+tasks with the most wrong attempts (site, task): count
+  cartesia/cartesia-brand-name-speech: 11
+  stytch/stytch-migrate-m2m-from-auth0: 10
+  lago/lago-price-one-metric-by-region: 9
+  stytch/stytch-support-login-as-user: 7
+  stytch/stytch-instant-logout-jwt-caveat: 7
+  dub/clerk-signup-tracking: 4
+  siderolabs/sidero-authed-config-download: 3
+  perplexity/chunk-context-embeddings: 2
+
+== 3b. Per arm: wrong answers that are a real page vs not a page ==
+html      total= 19  real page, wrong one=14  not a page=1  no usable answer=4
+md        total= 29  real page, wrong one=25  not a page=2  no usable answer=2
+md-link   total= 15  no usable answer=4  real page, wrong one=11
+md-inline total=  5  real page, wrong one=3  no usable answer=2
